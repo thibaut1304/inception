@@ -1,6 +1,6 @@
 FROM	debian:buster
 
-LABEL 		thhusser <thhusser@student.42.fr>
+LABEL 		maintener="thhusser@student.42.fr"
 
 RUN			apt update -y && apt-get install -y nginx openssl bash vim
 
