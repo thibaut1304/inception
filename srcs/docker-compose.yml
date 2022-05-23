@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    nginx:
+        build: NGINX/
+        image: nginx:v01
+        container_name: nginx
+        environment:
+            - DOMAIN_NAME=${DOMAIN_NAME}
+        # depends_on:
+            # - wordpress
+        ports:
+            - "443:443"
+        volumes:
+            - wp_files:/home
+        restart: unless-stopped
+        # networks:
+            # - backend
+volumes:
+    wp_files:
+        driver: local
+        driver_opts:
+            type: none
+            o: 'bind'
+            device: '${PATH_LOGIN}/data/wordpress'
+    # dbdata:
+    #     driver: local
+    #     driver_opts:
+    #         type: none
+    #         o: 'bind'
+    #         device: '${PATH_LOGIN}/data/db'
+
+networks:
+    backend:
+        driver: bridge

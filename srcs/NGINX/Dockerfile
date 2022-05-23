@@ -2,7 +2,7 @@ FROM	debian:buster
 
 LABEL 		maintener="thhusser@student.42.fr"
 
-RUN			apt update -y && apt-get install -y nginx openssl bash vim
+RUN			apt update -y && apt-get install -y nginx openssl
 
 RUN			mkdir /etc/nginx/ssl
 RUN			openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/thhusser.42.fr.key \
@@ -11,12 +11,8 @@ RUN			openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/thhusser.42.fr.
 
 COPY		conf/default.conf /etc/nginx/sites-available/default
 
-RUN			mkdir -p /home/hello
+# COPY		conf/entrypoint.sh .
 
-WORKDIR		/home/hello
-
-COPY		conf/entrypoint.sh .
-
-EXPOSE		443
+# EXPOSE		443
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
