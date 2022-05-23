@@ -14,8 +14,22 @@ services:
         volumes:
             - wp_files:/home
         restart: unless-stopped
-        # networks:
-            # - backend
+        networks:
+            - backend
+    db:
+        build: MariaDB/
+        image: mariadb:v01
+        container_name: mariadb
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        volumes:
+            - dbdata:/home/mariadb
+        restart: unless-stopped
+        networks:
+            - backend
 volumes:
     wp_files:
         driver: local
@@ -23,12 +37,12 @@ volumes:
             type: none
             o: 'bind'
             device: '${PATH_LOGIN}/data/wordpress'
-    # dbdata:
-    #     driver: local
-    #     driver_opts:
-    #         type: none
-    #         o: 'bind'
-    #         device: '${PATH_LOGIN}/data/db'
+    dbdata:
+        driver: local
+        driver_opts:
+            type: none
+            o: 'bind'
+            device: '${PATH_LOGIN}/data/db'
 
 networks:
     backend:
