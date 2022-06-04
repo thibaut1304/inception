@@ -1,26 +1,13 @@
-FROM		debian:buster
+FROM		alpine:3.14
 
-LABEL		maintener="thhusser@student.42.fr"
+RUN			apk add --no-cache bash php7 php7-fpm php7-phar php7-json php7-curl php7-mysqli mariadb-client php7-iconv
 
-RUN			apt update -y && apt-get install -y bash
+RUN			wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+			chmod +x wp-cli.phar && \
+			mv wp-cli.phar /usr/bin/wp
 
-RUN			mkdir -p /home/conf
+COPY		tools/ /entrypoint/
 
-COPY		./conf/latest-fr_FR.tar.gz /home/conf/
+WORKDIR		/entrypoint
 
-RUN			tar -xzvf ./home/conf/latest-fr_FR.tar.gz -C /home/conf && rm -f ./home/conf/latest-fr_FR.tar.gz
-
-#Config wordpress a faire : https://wordpress.org/support/article/editing-wp-config-php/
-
-#installation php -> https://howto.wared.fr/installation-wordpress-ubuntu-nginx/
-
-#creation user : utile ?
-RUN			useradd -ms /bin/bash thhusser
-
-#affecter les droits a l'user thibaut et suppression des droits des autres !
-# chown -R thhusser:www-data /var/www/wordpress && chmod -R o-rwx /var/www/blog
-
-EXPOSE		9000
-
-CMD	["bash"]
-# RUN		install wordpress
+ENTRYPOINT	["bash", "start.sh"]

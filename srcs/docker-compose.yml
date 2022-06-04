@@ -3,33 +3,58 @@ version: '3'
 services:
     nginx:
         build: NGINX/
-        image: nginx:v01
+        image: nginx_o
         container_name: nginx
         environment:
             - DOMAIN_NAME=${DOMAIN_NAME}
-        # depends_on:
-            # - wordpress
+        depends_on:
+            - wordpress
         ports:
             - "443:443"
         volumes:
             - wp_files:/home
         restart: unless-stopped
         networks:
-            - backend
+            - inception
     db:
         build: MariaDB/
-        image: mariadb:v01
+        image: mariadb_o
         container_name: mariadb
         environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
             - MYSQL_DATABASE=${MYSQL_DATABASE}
             - MYSQL_USER=${MYSQL_USER}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        ports:
+            - "3306:3306"
         volumes:
             - dbdata:/home/mariadb
         restart: unless-stopped
         networks:
-            - backend
+            - inception
+    wordpress:
+        build: WordPress/
+        image: wordpress_o
+        container_name: wordpress
+        depends_on:
+            - db
+        volumes:
+            - wp_files:/home/wordpress
+        ports:
+            - "9000:9000"
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+            - WORDPRESS_DB_ADMIN=${WORDPRESS_DB_ADMIN}
+            - WORDPRESS_DB_ADMIN_PASSWORD=${WORDPRESS_DB_ADMIN_PASSWORD}
+            - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+            - WORDPRESS_DB_USER_PASSWORD=${WORDPRESS_DB_USER_PASSWORD}
+            - WORDPRESS_PATH=${WORDPRESS_PATH}
+        restart: unless-stopped
+        networks:
+            - inception
 volumes:
     wp_files:
         driver: local
@@ -45,5 +70,5 @@ volumes:
             device: '${PATH_LOGIN}/data/db'
 
 networks:
-    backend:
+    inception:
         driver: bridge

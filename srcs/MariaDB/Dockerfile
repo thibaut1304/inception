@@ -1,21 +1,18 @@
-FROM			debian:buster
+FROM 		alpine:3.14
 
-RUN				apt update -y && apt install -y bash vim curl
+RUN			apk add --no-cache bash mariadb mariadb-client
 
-RUN curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-RUN bash mariadb_repo_setup --mariadb-server-version=10.5
+COPY		tools/ /entrypoint/
 
-RUN				apt install -y mariadb-server mariadb-client
-
-#Mariadb a besoin de 2 volume -> https://severalnines.com/blog/how-deploy-mariadb-server-docker-container
+# COPY		tools/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 RUN			mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld && mkdir -p /home/mariadb && chown -R mysql:mysql /home/mariadb
 
-RUN 	sed 's/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/'\
-		 -i /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN			sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf
+RUN			sed -i "s|skip-networking|# skip-networking|g" /etc/my.cnf.d/mariadb-server.cnf
 
-# RUN service mysql start && mariadb -u root < /tmp/mariadb/setup.sql
+RUN			mariadb-install-db --user=mysql --datadir='/home/mariadb' --auth-root-authentication-method=normal
 
-RUN		mariadb-install-db --user=mysql --datadir='/home/mariadb'
+WORKDIR		/entrypoint
 
-CMD				["bash"]
+ENTRYPOINT	["bash", "start.sh"]

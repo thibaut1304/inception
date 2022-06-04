@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:19:20 by thhusser          #+#    #+#              #
-#    Updated: 2022/05/23 20:48:41 by thhusser         ###   ########.fr        #
+#    Updated: 2022/06/04 23:39:39 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,17 @@ all:
 		/bin/bash	srcs/tools/build.sh
 		cd srcs/ && sudo docker-compose up -d --build
 
+logs:
+		@cd srcs/ && docker-compose logs
+
+up:
+		@cd srcs/ && docker-compose up -d
+
 clean:
-		@cd srcs/ && sudo docker-compose down
-		
+		@cd srcs/ && docker-compose down
+
 fclean: clean
-		sudo docker system prune --all --force
-		sudo docker volume rm srcs_wp_files --force
+		docker system prune -af
+		docker volume rm -f srcs_dbdata
+		docker volume rm -f srcs_wp_files
 		/bin/bash	srcs/tools/clean.sh
