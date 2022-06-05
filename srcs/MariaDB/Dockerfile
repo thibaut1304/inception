@@ -4,8 +4,6 @@ RUN			apk add --no-cache bash mariadb mariadb-client
 
 COPY		tools/ /entrypoint/
 
-# COPY		tools/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
-
 RUN			mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld && mkdir -p /home/mariadb && chown -R mysql:mysql /home/mariadb
 
 RUN			sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf

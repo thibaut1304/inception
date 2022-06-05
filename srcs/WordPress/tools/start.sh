@@ -35,8 +35,7 @@ cp /entrypoint/www.conf /etc/php7/php-fpm.d/
 echo "Listing users:"
 wp user list
 
-#used to check that wp is dl & correctly installed
-touch .installed
+touch	.isReady
 
 echo "Starting php-fpm..."
 php-fpm7 -F
