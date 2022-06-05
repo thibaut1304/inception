@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:19:20 by thhusser          #+#    #+#              #
-#    Updated: 2022/06/05 16:35:01 by thhusser         ###   ########.fr        #
+#    Updated: 2022/06/05 17:12:48 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ _WHITE=\033[0;37m
 
 all:
 		@/bin/bash	srcs/tools/build.sh
-		cd srcs/ && sudo docker-compose up -d --build
+		@cd srcs/ && sudo docker-compose up -d --build
 		@/bin/bash	srcs/tools/isReady.sh
 
 logs:
