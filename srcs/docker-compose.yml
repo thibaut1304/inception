@@ -2,11 +2,13 @@ version: '3'
 
 services:
     nginx:
-        build: requirements/NGINX/
-        image: nginx_o
+        build: requirements/nginx/
+        image: nginx
         container_name: nginx
         environment:
             - DOMAIN_NAME=${DOMAIN_NAME}
+            - SSL_CERTIFICATE=${SSL_CERTIFICATE}
+            - SSL_CERTIFICATE_KEY=${SSL_CERTIFICATE_KEY}
         depends_on:
             - wordpress
         ports:
@@ -17,8 +19,8 @@ services:
         networks:
             - inception
     db:
-        build: requirements/MariaDB/
-        image: mariadb_o
+        build: requirements/mariadb/
+        image: mariadb
         container_name: mariadb
         environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -33,8 +35,8 @@ services:
         networks:
             - inception
     wordpress:
-        build: requirements/WordPress/
-        image: wordpress_o
+        build: requirements/wordpress/
+        image: wordpress
         container_name: wordpress
         depends_on:
             - db

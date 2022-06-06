@@ -1,8 +1,10 @@
-FROM 		alpine:3.14
+FROM 		alpine:3.16.0
 
 RUN			apk add --no-cache bash mariadb mariadb-client
 
 COPY		tools/ /entrypoint/
+
+COPY		conf/ /entrypoint/
 
 RUN			mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld && mkdir -p /home/mariadb && chown -R mysql:mysql /home/mariadb
 

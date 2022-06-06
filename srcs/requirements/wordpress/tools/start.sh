@@ -30,12 +30,14 @@ if [[ $(wp user list --field=user_login | grep ${WORDPRESS_DB_USER} | wc -l) -eq
 	wp user create ${WORDPRESS_DB_USER} "${WORDPRESS_DB_USER}@student.42.fr" --user_pass=${WORDPRESS_DB_USER_PASSWORD} --role=editor
 fi
 
-cp /entrypoint/www.conf /etc/php7/php-fpm.d/
+cp /entrypoint/www.conf /etc/php8/php-fpm.d/
 
 echo "Listing users:"
 wp user list
 
+wp theme activate twentytwentyone
+
 touch	.isReady
 
 echo "Starting php-fpm..."
-php-fpm7 -F
+php-fpm8 -F
