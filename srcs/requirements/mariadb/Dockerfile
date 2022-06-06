@@ -1,5 +1,7 @@
 FROM 		alpine:3.16.0
 
+LABEL 		maintener="thhusser@student.42.fr"
+
 RUN			apk add --no-cache bash mariadb mariadb-client
 
 COPY		tools/ /entrypoint/

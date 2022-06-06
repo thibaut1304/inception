@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:19:20 by thhusser          #+#    #+#              #
-#    Updated: 2022/06/06 15:44:43 by thhusser         ###   ########.fr        #
+#    Updated: 2022/06/06 19:09:37 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,5 @@ fclean: down
 		@sudo docker volume rm -f srcs_wp_files
 
 re: fclean all
-# https://downloads.wordpress.org/theme/twentyseventeen.3.0.zip
-# https://downloads.wordpress.org/theme/twentytwentyone.1.6.zip
+
 .PHONY: all logs up clean fclean re
