@@ -2,7 +2,7 @@ version: '3'
 
 services:
     nginx:
-        build: NGINX/
+        build: requirements/NGINX/
         image: nginx_o
         container_name: nginx
         environment:
@@ -17,7 +17,7 @@ services:
         networks:
             - inception
     db:
-        build: MariaDB/
+        build: requirements/MariaDB/
         image: mariadb_o
         container_name: mariadb
         environment:
@@ -33,7 +33,7 @@ services:
         networks:
             - inception
     wordpress:
-        build: WordPress/
+        build: requirements/WordPress/
         image: wordpress_o
         container_name: wordpress
         depends_on:

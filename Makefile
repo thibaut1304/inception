@@ -6,7 +6,7 @@
 #    By: thhusser <thhusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:19:20 by thhusser          #+#    #+#              #
-#    Updated: 2022/06/05 17:12:48 by thhusser         ###   ########.fr        #
+#    Updated: 2022/06/06 12:14:19 by thhusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ _CYAN=\033[0;36m
 _WHITE=\033[0;37m
 
 all:
-		@/bin/bash	srcs/tools/build.sh
+		@/bin/bash	srcs/requirements/tools/build.sh
 		@cd srcs/ && sudo docker-compose up -d --build
-		@/bin/bash	srcs/tools/isReady.sh
+		@/bin/bash	srcs/requirements/tools/isReady.sh
 
 logs:
 		@cd srcs/ && sudo docker-compose logs
@@ -37,7 +37,7 @@ fclean: down
 		@sudo docker system prune -af
 		@echo -n "Delete all images ..."
 		@echo " $(_GREEN)done$(_NC)"
-		@/bin/bash	srcs/tools/fclean.sh
+		@/bin/bash	srcs/requirements/tools/fclean.sh
 		@echo -n "Delete volume : "
 		@sudo docker volume rm -f srcs_dbdata
 		@echo -n "Delete volume : "
